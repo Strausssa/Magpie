@@ -33,16 +33,18 @@ public class Magpie2 {
 		String response = "";
 		if (statement.indexOf("no") >= 0) {
 			response = "Why so negative?";
-		} else if (statement.indexOf("mother") >= 0
-				|| statement.indexOf("father") >= 0
+		} else if (statement.indexOf("dog") >= 0
+				|| statement.indexOf("cat") >= 0
 				|| statement.indexOf("sister") >= 0
 				|| statement.indexOf("brother") >= 0) {
-			response = "Tell me more about your family.";
+			response = "Tell me more about your pets.";
 		} else {
 			response = getRandomResponse();
 		}
 		return response;
 	}
+	
+	
 
 	/**
 	 * Pick a default response to use if nothing else fits.
