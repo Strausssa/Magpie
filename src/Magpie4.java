@@ -18,7 +18,7 @@ public class Magpie4 {
 	 * @return a greeting
 	 */
 	public String getGreeting() {
-		return "Hello, let's talk.";
+		return "Hello.";
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class Magpie4 {
 	public String getResponse(String statement) {
 		String response = "";
 		if (statement.length() == 0) {
-			response = "Say something, please.";
+			response = "Say something or I am giving up on you.";
 		}
 
 		else if (findKeyword(statement, "no") >= 0) {
@@ -41,6 +41,9 @@ public class Magpie4 {
 				|| findKeyword(statement, "sister") >= 0
 				|| findKeyword(statement, "brother") >= 0) {
 			response = "Tell me more about your family.";
+		} 
+		else if (findKeyword(statement, "I want") >= 0) {
+			response = transformIWantStatement(statement);
 		}
 
 		// Responses which require transformations
@@ -80,6 +83,18 @@ public class Magpie4 {
 		int psn = findKeyword(statement, "I want to", 0);
 		String restOfStatement = statement.substring(psn + 9).trim();
 		return "What would it mean to " + restOfStatement + "?";
+	}
+	
+	private String transformIWantStatement(String statement) {
+		// Remove the final period, if there is one
+		statement = statement.trim();
+		String lastChar = statement.substring(statement.length() - 1);
+		if (lastChar.equals(".")) {
+			statement = statement.substring(0, statement.length() - 1);
+		}
+		int psn = findKeyword(statement, "I want", 0);
+		String restOfStatement = statement.substring(psn + 7).trim();
+		return "Would you really be happy if you had " + restOfStatement + "?";
 	}
 
 	/**
@@ -144,11 +159,7 @@ public class Magpie4 {
 
 			// If before and after aren't letters, we've
 			// found the word
-			if (((before.compareTo("a") < 0) || (before.compareTo("z") > 0)) // before
-																				// is
-																				// not
-																				// a
-																				// letter
+			if (((before.compareTo("a") < 0) || (before.compareTo("z") > 0)) 
 					&& ((after.compareTo("a") < 0) || (after.compareTo("z") > 0))) {
 				return psn;
 			}
